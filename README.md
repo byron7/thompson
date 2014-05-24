@@ -14,5 +14,4 @@ siguiendo el método de Thompson. Debe de crear un archivo imagen con el AFN.
 Colaboradores
 -------------
 Erick Cruz Ubaldo
-
 Aceves Amador Omar Emmanuel
