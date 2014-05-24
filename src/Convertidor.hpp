@@ -6,7 +6,7 @@
 
 #include "Expresion.hpp"
 #include "Arbol.hpp"
-#include "Automata.hpp"
+//#include "Automata.hpp"
 #include "Pila.hpp"
 
 
@@ -14,7 +14,7 @@ class Convertidor{
 	private:
 		Expresion exp;
 		Arbol *arbolSintactico;
-		Automata afd;
+		//Automata afd;
 	public:
 // Extiende la expresión regular, concatenando un '#' a toda la expresión.
 // También quita los paréntesis de la expresión regular, cambiandola a notación prefija
