@@ -38,7 +38,7 @@ void Arbol::setLabelDOT(Arbol *a,FILE* dot){
 		setLabelDOT(a->hojaDerecha,dot);
 		a->setPosicion(countInordenPosicion);
 		printf("%c pos: %i\n",a->getDato(),a->getPosicion());
-		fprintf(dot,"%i [label=\"%c\"]",a->getPosicion(),a->getDato());
+		fprintf(dot,"%i [label=\"%c\"];\n",a->getPosicion(),a->getDato());
 		countInordenPosicion++;
     }
 
@@ -70,45 +70,54 @@ void Arbol::construirAutomata(Arbol *a){
 		construirAutomata(a->hojaDerecha);
 		switch(a->getDato()){
 			case '.':
-				a->setEstadoInicial(a->hojaIzquierda->getPosicion(),0);
-				a->hojaIzquierda->setEstadoFinal(a->hojaDerecha->getEstadoInicial(0));
-				a->setEstadoFinal(a->hojaDerecha->getEstadoFinal());
+				a->setIni(a->hojaIzquierda->getIni());
+				a->hojaDerecha->setIni(a->hojaIzquierda->getEstadoInicial(0));
 				break;
 			case '|':
+				a->setIni(a->getPosicion());
+				a->setEstadoInicial(a->hojaIzquierda->getIni(),0);
+				a->setEstadoInicial(a->hojaDerecha->getIni(),1);
+				
+				a->hojaIzquierda->setEstadoFinal(a->getIni()+100,0);
+				a->hojaDerecha->setEstadoFinal(a->getIni()+100,0);
 				break;
 			case '+':
+				a->setIni(a->getPosicion());
+				a->setEstadoInicial(a->hojaIzquierda->getIni(),0);
+				a->hojaIzquierda->setEstadoFinal(a->getIni()+100,0);
+				a->hojaIzquierda->setEstadoFinal(a->hojaIzquierda->getIni(),1);
 				break;
 			case '*':
+				a->setIni(a->getPosicion());
+				a->setEstadoInicial(a->hojaIzquierda->getIni(),0);
+				a->setEstadoInicial(a->getIni()+100,1);
+				a->hojaIzquierda->setEstadoFinal(a->getIni()+100,0);
+				a->hojaIzquierda->setEstadoFinal(a->hojaIzquierda->getIni(),1);
 				break;
 			default:
-					a->setEstadoInicial(a->getPosicion(),0);
-					a->setEstadoFinal(a->getPosicion()+2);
+					a->setIni(a->getPosicion());
+					a->setEstadoInicial(a->getIni()+100,0);
 				break;
 		}
 	}
 };
 
 void Arbol::dibujarAutomata(Arbol *a,FILE *dot){
-		if(a!=NULL){
+	if(a!=NULL){
 		dibujarAutomata(a->hojaIzquierda,dot);
 		dibujarAutomata(a->hojaDerecha,dot);
-		countInordenPosicion--;
-		switch(a->getDato()){
-			case '.':
-				fprintf(dot,"\tsubgraph cluster_%i{\n\t\tlabel=\"%c\";\n\t\t%i0 -- %i0 [label=\"%c\"];\n\t\t%i0 -- %i2 [label=\"%c\"];\n\t}\n",
-						countInordenPosicion,a->getDato(),a->hojaIzquierda->getPosicion(),a->hojaDerecha->getPosicion(),a->hojaIzquierda->getDato(),a->hojaDerecha->getPosicion(),a->hojaDerecha->getPosicion(),a->hojaDerecha->getDato());
-				break;
-				
-			case '|':
-			case '+':
-			case '*':
-				//fprintf(dot,"\tsubgraph cluster_%i{\n\t\tlabel=\"Subgraph %c\";\n\t\t%i -- %i9;\n\t}\n",countInordenPosicion,a->getDato(),a->getPosicion(),a->getPosicion());
-			default:
-				//fprintf(dot,"\tsubgraph cluster_%i{\n\t\tlabel=\"%c\";\n\t\t%i -- %i9 [label=\"%c\"];\n\t}\n",countInordenPosicion,' ',a->getPosicion(),a->getPosicion(),a->getDato());
-				break;
-		}
+			if(a->getEstadoInicial(0)!=-1)
+				fprintf(dot,"\t%i -> %i [label=\"%c\"];\t/*1-%c*/\n",a->getIni(),a->getEstadoInicial(0),a->getDato(),a->getDato());
+			
+			if(a->getEstadoInicial(1)!=-1)
+				fprintf(dot,"\t%i -> %i [label=\"%c\"];\t/*2-%c*/\n",a->getIni(),a->getEstadoInicial(1),a->getDato(),a->getDato());
+			
+			if(a->getEstadoFinal(0)!=-1)
+				fprintf(dot,"\t%i -> %i [label=\"%c\"];\t/*3-%c*/\n",a->getEstadoInicial(0),a->getEstadoFinal(0),'e',a->getDato());
+			
+			if(a->getEstadoFinal(1)!=-1)
+				fprintf(dot,"\t%i -> %i [label=\"%c\"];\t/*4-%c*/\n",a->getEstadoInicial(0),a->getEstadoFinal(1),'e',a->getDato());
     }
-	
 };
 
 
@@ -124,15 +133,21 @@ void Arbol::setPosicion(int pos){
 int Arbol::getPosicion(){
 	return d.getPosicion();
 };
+void Arbol::setIni(int e){
+	d.setIni(e);
+};
+int  Arbol::getIni(void){
+	return d.getIni();
+};
 void Arbol::setEstadoInicial(int edo,int i){
 	d.setEstadoInicial(edo,i);
 };
-void Arbol::setEstadoFinal(int edo){
-	d.setEstadoFinal(edo);
+void Arbol::setEstadoFinal(int edo,int i){
+	d.setEstadoFinal(edo,i);
 };
 int Arbol::getEstadoInicial(int i){
 	return d.getEstadoInicial(i);
 };
-int Arbol::getEstadoFinal(){
-	d.getEstadoFinal();
+int Arbol::getEstadoFinal(int i){
+	d.getEstadoFinal(i);
 };

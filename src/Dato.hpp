@@ -10,8 +10,9 @@ class Dato{
 // y una lista para los nodos primeros y últimos.
 		char d;
 		int posicion;
+		int eIni;
 		int estadoInicial[2];
-		int estadoFinal;
+		int estadoFinal[2];
 	public:
 // Inicializa el objeto Dato.
 		Dato();
@@ -23,11 +24,12 @@ class Dato{
 		void setPosicion(int);
 // Consulta la posición del nodo.
 		int getPosicion();
-		
+		void setIni(int);
+		int  getIni(void);
 		void setEstadoInicial(int,int);
-		void setEstadoFinal(int);
+		void setEstadoFinal(int,int);
 		int getEstadoInicial(int);
-		int getEstadoFinal();
+		int getEstadoFinal(int);
 };
 
 #endif

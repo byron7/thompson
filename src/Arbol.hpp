@@ -36,11 +36,12 @@ class Arbol{
 		void setPosicion(int);
 // Consulta la posición del nodo.
 		int getPosicion();
-
+		void setIni(int);
+		int  getIni(void);
 		void setEstadoInicial(int,int);
-		void setEstadoFinal(int);
+		void setEstadoFinal(int,int);
 		int getEstadoInicial(int);
-		int getEstadoFinal();
+		int getEstadoFinal(int);
 };
 
 #endif
