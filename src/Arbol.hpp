@@ -26,6 +26,7 @@ class Arbol{
 		void setLabelDOT(Arbol*,FILE*);
 		void postordenConstruir(Arbol*,FILE*);
 		void construirAutomata(Arbol*);
+		void setLabelAFNDOT(Arbol*,FILE*);
 		void dibujarAutomata(Arbol*,FILE*);
 		
 // Coloca el caractér dentro del nodo raíz.
@@ -38,6 +39,8 @@ class Arbol{
 		int getPosicion();
 		void setIni(int);
 		int  getIni(void);
+		void setFin(int);
+		int  getFin(void);
 		void setEstadoInicial(int,int);
 		void setEstadoFinal(int,int);
 		int getEstadoInicial(int);

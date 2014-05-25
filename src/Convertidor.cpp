@@ -77,6 +77,7 @@ void Convertidor::dibujarAutomata(void){
 	FILE *dot;
 	dot = fopen ( "afn.dot", "w" );
 	fprintf(dot,"digraph AFN{\n");
+	//arbolSintactico->setLabelAFNDOT(arbolSintactico,dot);
 	arbolSintactico->dibujarAutomata(arbolSintactico,dot);
 	fprintf(dot,"}");	
 	fclose ( dot );

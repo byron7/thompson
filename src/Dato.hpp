@@ -11,6 +11,7 @@ class Dato{
 		char d;
 		int posicion;
 		int eIni;
+		int eFin;
 		int estadoInicial[2];
 		int estadoFinal[2];
 	public:
@@ -26,6 +27,8 @@ class Dato{
 		int getPosicion();
 		void setIni(int);
 		int  getIni(void);
+		void setFin(int);
+		int  getFin(void);
 		void setEstadoInicial(int,int);
 		void setEstadoFinal(int,int);
 		int getEstadoInicial(int);

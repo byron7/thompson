@@ -25,6 +25,12 @@ void Dato::setIni(int e){
 int  Dato::getIni(void){
 	return eIni;
 };
+void Dato::setFin(int e){
+	eFin=e;
+};
+int  Dato::getFin(void){
+	return eFin;
+};
 void Dato::setEstadoInicial(int edo,int i){
 	estadoInicial[i]=edo;
 };
